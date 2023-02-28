@@ -53,10 +53,10 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 }
 
 // Createagent issues a new agent to the world state with given details.
-func (s *SmartContract) Createagent(ctx contractapi.TransactionContextInterface,
+func (s *SmartContract) CreateAgent(ctx contractapi.TransactionContextInterface,
 	id string, did string, name string, address string, represents string, agentType string,
 	roles string, iam string) error {
-	exists, err := s.agentExists(ctx, id)
+	exists, err := s.AgentExists(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -84,7 +84,7 @@ func (s *SmartContract) Createagent(ctx contractapi.TransactionContextInterface,
 }
 
 // Readagent returns the agent stored in the world state with given id.
-func (s *SmartContract) Readagent(ctx contractapi.TransactionContextInterface, id string) (*Agent, error) {
+func (s *SmartContract) ReadAgent(ctx contractapi.TransactionContextInterface, id string) (*Agent, error) {
 	agentJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read from world state: %v", err)
@@ -103,10 +103,10 @@ func (s *SmartContract) Readagent(ctx contractapi.TransactionContextInterface, i
 }
 
 // Updateagent updates an existing agent in the world state with provided parameters.
-func (s *SmartContract) Updateagent(ctx contractapi.TransactionContextInterface,
+func (s *SmartContract) UpdateAgent(ctx contractapi.TransactionContextInterface,
 	id string, did string, name string, address string, represents string, agentType string,
 	roles string, iam string, status string) error {
-	exists, err := s.agentExists(ctx, id)
+	exists, err := s.AgentExists(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -135,8 +135,8 @@ func (s *SmartContract) Updateagent(ctx contractapi.TransactionContextInterface,
 }
 
 // Deleteagent deletes an given agent from the world state.
-func (s *SmartContract) Deleteagent(ctx contractapi.TransactionContextInterface, id string) error {
-	exists, err := s.agentExists(ctx, id)
+func (s *SmartContract) DeleteAgent(ctx contractapi.TransactionContextInterface, id string) error {
+	exists, err := s.AgentExists(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func (s *SmartContract) Deleteagent(ctx contractapi.TransactionContextInterface,
 }
 
 // agentExists returns true when agent with given ID exists in world state
-func (s *SmartContract) agentExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
+func (s *SmartContract) AgentExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
 	agentJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
 		return false, fmt.Errorf("failed to read from world state: %v", err)
